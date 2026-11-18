@@ -31,6 +31,8 @@ services:
       - ./data:/data
     security_opt:
       - no-new-privileges:true
+      # ALSA device enumeration reads /proc/asound, which Docker masks by default.
+      - systempaths=unconfined
     cap_drop:
       - ALL
     logging:
