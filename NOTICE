@@ -1,0 +1,33 @@
+# Third-party notices
+
+This repository contains packaging code (Dockerfile, compose, scripts, patches,
+documentation) licensed under GPL-3.0. It does **not** vendor the upstream
+source code: the Docker build fetches each project at the commit pinned in
+`versions.env`.
+
+The following projects are included in the built image:
+
+| Project | License | Source |
+|---|---|---|
+| FM-DX Webserver | GPL-3.0 | https://github.com/NoobishSVK/fm-dx-webserver |
+| MetricsMonitor | GPL-3.0 | https://github.com/Highpoint2000/MetricsMonitor |
+| webserver-scanner | GPL-3.0 | https://github.com/Highpoint2000/webserver-scanner |
+| RDS AI Decoder | GPL-3.0 | https://github.com/Highpoint2000/RDS-AI-Decoder |
+| AI-Denoise | GPL-3.0 | https://github.com/Highpoint2000/AI-Denoise |
+| ES-Alert | GPL-3.0 | https://github.com/Highpoint2000/ES-Alert |
+| LiveMap | GPL-3.0 | https://github.com/Highpoint2000/LiveMap |
+| webserver-station-logos | GPL-3.0 | https://github.com/Highpoint2000/webserver-station-logos |
+| radiodns-radiovis-plugin | GPL-3.0 | https://github.com/ryanginn/radiodns-radiovis-plugin-fmdx-webserver |
+| RDSExpert Plugin | GPL-3.0 | https://github.com/LucasGallone/RDSExpert-Plugin |
+| Inactivity Monitor | MIT | https://github.com/AmateurAudioDude/FM-DX-Webserver-Plugin-Inactivity-Monitor |
+| Spectrum Graph | MIT | https://github.com/AmateurAudioDude/FM-DX-Webserver-Plugin-Spectrum-Graph |
+| UI Add-on Pack | MIT | https://github.com/AmateurAudioDude/FM-DX-Webserver-Plugin-UI-Addon-Pack |
+| Button Presets | MIT | https://github.com/AmateurAudioDude/FM-DX-Webserver-Plugin-Button-Presets |
+
+The exact commits are listed in `versions.env`. Because the image combines
+GPL-3.0 components, the distributed image as a whole is covered by GPL-3.0.
+Corresponding source is available from the upstream repositories at the pinned
+commits, together with this repository's build scripts and patches.
+
+Local site overlays (`site/overlay/`, `config/`, `data/`) are not part of the
+public source and are not covered by this notice.

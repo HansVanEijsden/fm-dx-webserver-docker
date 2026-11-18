@@ -1,0 +1,28 @@
+--- a/server/helpers.js
++++ b/server/helpers.js
+@@ -81,6 +81,9 @@
+ 
+ // Returns the matching ban entry. Any IP in the proxy chain matches, and an entry may hold several comma-separated IPs
+ function isBanned(req) {
++  // MM_LOCALHOST_BAN_BYPASS: the server's own loopback plugins must never be locked out
++  const localIps = getClientIps(req);
++  if (localIps.length && localIps.every((ip) => ip === "127.0.0.1" || ip === "::1")) return false;
+   const ips = getClientIps(req);
+   return (serverConfig.webserver.banlist || []).find(entry =>
+     String(Array.isArray(entry) ? entry[0] : entry).split(',').some(ip => ips.includes(cleanIp(ip))));
+@@ -329,6 +332,15 @@
+ 
+   return (message) => {
+     const command = message.toString().replace(/[\r\n]+/g, '');
++  // MM_LOCALHOST_SPAM_BYPASS: allow internal server apps on localhost
++  const isLocalhost =
++    clientIp === "127.0.0.1" ||
++    clientIp === "::1" ||
++    (clientIp && clientIp.replace(/^::ffff:/, "") === "127.0.0.1");
++  if (isLocalhost) {
++    // no spam/bot checks for local server applications
++    return command;
++  }
+     const now = Date.now();
+     if (endpointName === 'text') consoleCmd.logDebug(`Command received from \x1b[90m${clientIp}\x1b[0m: ${command}`);
+ 

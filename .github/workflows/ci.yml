@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+
+      - name: ShellCheck
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y shellcheck
+          shellcheck -x scripts/*.sh docker/*.sh tests/*.sh
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: fm-dx-webserver:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Verify patch markers and runtime user
+        run: |
+          docker run --rm --entrypoint sh fm-dx-webserver:ci -c '
+            set -e
+            grep -q MM_LOCALHOST_SPAM_BYPASS server/helpers.js
+            grep -q MM_ARIA_SAFE_COMPARE web/js/main.js
+            grep -q MM_NO_TX_CACHE server/tx_search.js
+            grep -q MM_TOOLTIP_ORDER web/js/webserver.js
+            grep -q MM_ECC_STABLE_BADGE plugins/MetricsMonitor/js/metricsmonitor-header.js
+            grep -q MM_ORT_QUIET plugins/AI-Denoise/ai-denoise.js
+            grep -q MM_SYSTEM_FFMPEG server/stream/parser.js
+            grep -q setAiOverride server/tx_search.js
+          '
+          test "$(docker run --rm --entrypoint id fm-dx-webserver:ci -u)" = "1000"
+
+      - name: Smoke test
+        run: tests/smoke.sh fm-dx-webserver:ci
+
+      - name: Trivy scan (report)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: fm-dx-webserver:ci
+          format: table
+          severity: CRITICAL,HIGH
+          exit-code: '0'
+
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

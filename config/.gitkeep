@@ -1,0 +1,2 @@
+# Local production configuration lives here and is gitignored.
+# `make bootstrap` creates config/config.json from examples/config.example.json.

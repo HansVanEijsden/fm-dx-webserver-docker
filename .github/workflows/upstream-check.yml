@@ -1,0 +1,34 @@
+name: Upstream check
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check pinned refs and show drift
+        run: |
+          set +e
+          ./scripts/update-pins.sh --check > drift.txt 2>&1
+          code=$?
+          cat drift.txt
+          exit $code
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo '## Upstream pin status'
+            echo '```'
+            cat drift.txt 2>/dev/null || true
+            echo '```'
+            echo 'Bump refs in `versions.env`, then run `make verify`.'
+          } >> "$GITHUB_STEP_SUMMARY"

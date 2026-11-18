@@ -1,0 +1,40 @@
+name: fm-dx-webserver
+
+services:
+  fm-dx-webserver:
+    build:
+      context: .
+      args:
+        NODE_IMAGE: ${NODE_IMAGE:-node:26-alpine}
+        FM_DX_REF: ${FM_DX_REF:-}
+        APPLY_SITE_OVERLAY: ${APPLY_SITE_OVERLAY:-false}
+    image: fm-dx-webserver:${IMAGE_TAG:-local}
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 30s
+    ports:
+      - "${BIND_IP:-0.0.0.0}:${HOST_PORT:-8080}:8080"
+    devices:
+      - /dev/snd
+      - "${TUNER_DEVICE:-/dev/ttyACM0}"
+    group_add:
+      - "${AUDIO_GID:-29}"
+      - "${DIALOUT_GID:-20}"
+    environment:
+      TZ: ${TZ:-Europe/Amsterdam}
+      FM_DX_DEBUG: ${FM_DX_DEBUG:-false}
+      FM_DX_FFMPEG_DEBUG: ${FM_DX_FFMPEG_DEBUG:-false}
+    volumes:
+      - ./config/config.json:/opt/fm-dx-webserver/config.json
+      - ./data/plugins_configs:/opt/fm-dx-webserver/plugins_configs
+      - ./data/logs:/opt/fm-dx-webserver/web/logs
+      - ./data:/data
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-file: "2"
+        max-size: "10m"

@@ -1,0 +1,128 @@
+{
+  "webserver": {
+    "webserverIp": "0.0.0.0",
+    "webserverPort": "8080",
+    "banlist": [],
+    "chatEnabled": true,
+    "tuningLimit": false,
+    "tuningLowerLimit": "100",
+    "tuningUpperLimit": "108",
+    "presets": [
+      "87.5",
+      "87.5",
+      "87.5",
+      "87.5"
+    ],
+    "defaultTheme": "theme1",
+    "bgImage": "",
+    "rdsMode": false,
+    "rdsTimeout": "10",
+    "txIdAlgorithm": "0"
+  },
+  "xdrd": {
+    "wirelessConnection": false,
+    "comPort": "/dev/ttyACM0",
+    "xdrdIp": "127.0.0.1",
+    "xdrdPort": 7373,
+    "xdrdPassword": ""
+  },
+  "audio": {
+    "audioDevice": "hw:0,0",
+    "audioChannels": "2",
+    "audioBitrate": "320k",
+    "audioBoost": false,
+    "softwareMode": false,
+    "startupVolume": "1",
+    "ffmpeg": false,
+    "samplerateOffset": "0"
+  },
+  "identification": {
+    "token": "",
+    "tunerName": "My FM-DX Tuner",
+    "tunerDesc": "",
+    "lat": "0",
+    "lon": "0",
+    "broadcastTuner": false,
+    "gpsMode": false,
+    "proxyIp": "",
+    "contact": ""
+  },
+  "password": {
+    "tunePass": "change-me",
+    "adminPass": "change-me"
+  },
+  "antennas": {
+    "enabled": true,
+    "ant1": {
+      "enabled": true,
+      "name": "Antenna 1"
+    },
+    "ant2": {
+      "enabled": true,
+      "name": "Antenna 2"
+    },
+    "ant3": {
+      "enabled": false,
+      "name": "Antenna 3"
+    },
+    "ant4": {
+      "enabled": false,
+      "name": "Antenna 4"
+    }
+  },
+  "extras": {
+    "fmlistIntegration": false,
+    "fmlistAdminOnly": false,
+    "fmlistOmid": ""
+  },
+  "tunnel": {
+    "enabled": false,
+    "username": "",
+    "token": "",
+    "region": "eu",
+    "lowLatencyMode": false,
+    "subdomain": "",
+    "httpName": "",
+    "httpPassword": "",
+    "community": {
+      "enabled": false,
+      "host": ""
+    }
+  },
+  "plugins": [
+    "UIAddonPack/pluginUIAddonPack.js",
+    "AI-Denoise/ai-denoise.js",
+    "ButtonPresets/pluginButtonPresets.js",
+    "ES-Alert/es-alert.js",
+    "InactivityMonitor/pluginInactivityMonitor.js",
+    "LiveMap/livemap.js",
+    "MetricsMonitor/metricsmonitor.js",
+    "RDS-AI-Decoder/rds-ai-decoder.js",
+    "RDSExpert/RDSExpert-Frontend.js",
+    "RadioDNS/pluginRadioDNS.js",
+    "Scanner/scanner.js",
+    "SpectrumGraph/pluginSpectrumGraph.js",
+    "StationLogo/updateStationLogo.js"
+  ],
+  "device": "tef",
+  "defaultFreq": "87.5",
+  "publicTuner": true,
+  "lockToAdmin": false,
+  "autoShutdown": true,
+  "enableDefaultFreq": true,
+  "bwSwitch": false,
+  "bwAutoStartup": "0",
+  "bwAutoNoUsers": "1",
+  "ceqStartup": "1",
+  "ceqNoUsers": "2",
+  "imsStartup": "1",
+  "imsNoUsers": "2",
+  "stereoStartup": "0",
+  "stereoNoUsers": "1",
+  "antennaStartup": "0",
+  "antennaNoUsers": "2",
+  "antennaNoUsersDelay": true,
+  "si47xx": {
+    "agcControl": false
+  }
+}

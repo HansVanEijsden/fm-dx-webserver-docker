@@ -1,0 +1,43 @@
+--- a/plugins/AI-Denoise/ai-denoise.js
++++ b/plugins/AI-Denoise/ai-denoise.js
+@@ -21,6 +21,22 @@
+     const pluginUpdateUrl   = 'https://raw.githubusercontent.com/Highpoint2000/AI-Denoise/refs/heads/main/AI-Denoise/ai-denoise.js';
+     const CHECK_FOR_UPDATES = false;
+ 
++    // MM_ORT_QUIET: the ONNX WASM runtime prints harmless "Removing unused
++    // initializer" lines during model creation; they are warnings, not errors.
++    // Filter only those, so the Safari/Chrome console stays readable.
++    (function quietOrtWarnings() {
++        if (window.__mmOrtQuiet) return;
++        window.__mmOrtQuiet = true;
++        const originalError = console.error.bind(console);
++        console.error = (...args) => {
++            try {
++                const text = args.map((arg) => String(arg)).join(' ');
++                if (text.includes('CleanUnusedInitializers') || text.includes('[W:onnxruntime')) return;
++            } catch (_) { /* fall through */ }
++            originalError(...args);
++        };
++    })();
++
+     const PLUGIN_BASE   = window.location.origin + '/plugins/AI-Denoise/';
+     const DTLN_BASE_URL = PLUGIN_BASE + 'DTLN/';
+     const RNNOISE_BASE  = PLUGIN_BASE + 'rnnoise/';
+@@ -205,6 +221,8 @@
+             ortLoaded = true;
+             ort.env.wasm.wasmPaths  = DTLN_BASE_URL;
+             ort.env.wasm.numThreads = 1;
++            // MM_ORT_SILENT: model-loader warnings are harmless noise in Safari/Chrome consoles
++            ort.env.logLevel = "fatal";
+             return Promise.resolve();
+         }
+         return new Promise((resolve, reject) => {
+@@ -214,6 +232,8 @@
+                 ortLoaded = true;
+                 ort.env.wasm.wasmPaths  = DTLN_BASE_URL;
+                 ort.env.wasm.numThreads = 1;
++                // MM_ORT_SILENT: model-loader warnings are harmless noise in Safari/Chrome consoles
++                ort.env.logLevel = "fatal";
+                 resolve();
+             };
+             s.onerror = () => reject(new Error('ORT load failed: ' + ORT_CDN));

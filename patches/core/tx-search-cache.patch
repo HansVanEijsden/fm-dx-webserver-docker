@@ -1,0 +1,13 @@
+--- a/server/tx_search.js
++++ b/server/tx_search.js
+@@ -257,8 +257,8 @@
+         now - lastFetchTime < fetchInterval ||
+         Latitude.length < 2 ||
+         freq < 87 ||
+-        Object.keys(localDb).length === 0 ||
+-        (currentPiCode === piCode && currentRdsPs === rdsPs)
++        Object.keys(localDb).length === 0
++        // MM_NO_TX_CACHE: re-check at most once per second; an RDS reset must not leave txInfo empty
+     ) return Promise.resolve();
+ 
+     lastFetchTime = now;

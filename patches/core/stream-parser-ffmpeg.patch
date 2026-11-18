@@ -1,0 +1,12 @@
+--- a/server/stream/parser.js
++++ b/server/stream/parser.js
+@@ -2,7 +2,8 @@
+ 
+ const exec = require('child_process').exec;
+ const fs = require('fs').promises; // Use the Promise-based fs API
+-const ffmpeg = require('ffmpeg-static');
++// MM_SYSTEM_FFMPEG: system ffmpeg is installed in the image; ffmpeg-static is pruned.
++const ffmpeg = "ffmpeg";
+ const filePath = '/proc/asound/cards';
+ const platform = process.platform;
+ 

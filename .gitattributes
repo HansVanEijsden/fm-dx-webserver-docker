@@ -1,0 +1,3 @@
+* text=auto
+# Patch files contain byte-exact CRLF context and must never be normalized.
+patches/** -text

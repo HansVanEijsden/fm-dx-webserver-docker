@@ -1,0 +1,22 @@
+--- a/web/js/main.js
++++ b/web/js/main.js
+@@ -653,7 +653,7 @@
+     const max_alpha = 70;
+     const alpha_range = 50;
+     const max_error = 10;
+-    errors = errors?.split(',');
++    errors = String(errors ?? '').split(',');
+     
+     for (let i = 0; i < string.length; i++) {
+         alpha = parseInt(errors[i]) * (alpha_range / (max_error + 1));
+@@ -945,7 +945,9 @@
+ }
+ 
+ function updateHtmlIfChanged($element, newHtml) {
+-    if ($element.html() !== newHtml) {
++    // MM_ARIA_SAFE_COMPARE: tooltips add aria-describedby, which must not force a re-render
++    const stripTooltipAria = (html) => String(html ?? '').replace(/\s*aria-describedby="[^"]*"/g, '');
++    if (stripTooltipAria($element.html()) !== stripTooltipAria(newHtml)) {
+         $element.html(newHtml);
+         return true;
+     }

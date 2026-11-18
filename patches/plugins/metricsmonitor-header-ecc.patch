@@ -1,0 +1,19 @@
+--- a/plugins/MetricsMonitor/js/metricsmonitor-header.js
++++ b/plugins/MetricsMonitor/js/metricsmonitor-header.js
+@@ -202,8 +202,15 @@
+     }
+ 
+     // --- ECC Badge ---
++    // MM_ECC_STABLE_BADGE: rebuilding the badge on every message made Safari re-decode
++    // the flag image ~20x/s (visible blinking). Only touch the DOM when the
++    // badge content actually changes.
+     const eccWrapper = document.getElementById('eccWrapper');
+-    if (eccWrapper) {
++    const eccSource = document.querySelector('.data-flag');
++    const eccSignature = `${message.ecc ?? ''}|${message.country_iso ?? ''}|${eccSource ? eccSource.innerHTML : ''}`;
++    const eccNeedsUpdate = !!eccWrapper && eccWrapper.dataset.mmEccSignature !== eccSignature;
++    if (eccNeedsUpdate) {
++      eccWrapper.dataset.mmEccSignature = eccSignature;
+       eccWrapper.innerHTML = "";
+ 
+       const eccSpan = document.querySelector('.data-flag');

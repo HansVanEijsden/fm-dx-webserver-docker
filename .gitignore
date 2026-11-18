@@ -1,0 +1,12 @@
+.env
+config/*
+!config/.gitkeep
+data/
+site/*
+!site/README.md
+backups/
+node_modules/
+**/node_modules/
+*.log
+serverlog*.txt
+.DS_Store
