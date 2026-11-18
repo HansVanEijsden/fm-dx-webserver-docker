@@ -2,7 +2,7 @@
 # Delete scanner logs older than DAYS (default 90).
 set -eu
 
-REPO_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+REPO_DIR=$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$REPO_DIR"
 
 DAYS=${DAYS:-90}

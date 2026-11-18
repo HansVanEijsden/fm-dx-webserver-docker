@@ -2,7 +2,7 @@
 # Back up site config and persistent runtime data (not the container logs).
 set -eu
 
-REPO_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+REPO_DIR=$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$REPO_DIR"
 
 [ -f config/config.json ] || { echo "ERROR: config/config.json not found" >&2; exit 1; }

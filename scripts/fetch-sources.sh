@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2153  # CORE_REPO is provided by the sourced versions.env
 # Fetch the pinned upstream core and plugin sources and assemble the app tree.
 # Runs inside the Docker "fetch" stage. Requires git and network access.
 set -eu
@@ -11,6 +12,7 @@ VERSIONS="$SRC/versions.env"
 # shellcheck disable=SC1090
 . "$VERSIONS"
 
+# shellcheck disable=SC2153  # CORE_REPO comes from the sourced versions.env
 # Optional override from the build arg.
 CORE_REF=${FM_DX_REF:-$CORE_REF}
 

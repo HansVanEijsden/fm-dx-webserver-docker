@@ -3,7 +3,7 @@
 # Existing files are never overwritten.
 set -eu
 
-REPO_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+REPO_DIR=$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$REPO_DIR"
 
 command -v docker >/dev/null 2>&1 || { echo "ERROR: docker is required" >&2; exit 1; }
@@ -12,7 +12,7 @@ docker compose version >/dev/null 2>&1 || { echo "ERROR: Docker Compose v2 is re
 if [ ! -f .env ]; then
     AUDIO_GID=$(getent group audio 2>/dev/null | cut -d: -f3 || true)
     DIALOUT_GID=$(getent group dialout 2>/dev/null | cut -d: -f3 || true)
-    TUNER_DEVICE=$(ls /dev/ttyACM* 2>/dev/null | head -1 || true)
+    TUNER_DEVICE=$(find /dev -maxdepth 1 -name 'ttyACM*' -print -quit 2>/dev/null || true)
     [ -n "${AUDIO_GID:-}" ] || AUDIO_GID=29
     [ -n "${DIALOUT_GID:-}" ] || DIALOUT_GID=20
     [ -n "${TUNER_DEVICE:-}" ] || TUNER_DEVICE=/dev/ttyACM0

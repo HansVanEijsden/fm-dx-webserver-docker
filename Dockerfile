@@ -94,7 +94,7 @@ USER 1000:1000
 EXPOSE 8080
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=3 \
-    CMD wget -q -O /dev/null http://127.0.0.1:8080/ping || exit 1
+    CMD ["wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/ping"]
 
 LABEL org.opencontainers.image.title="fm-dx-webserver-docker" \
       org.opencontainers.image.description="Reproducible FM-DX Webserver container with pinned plugins" \

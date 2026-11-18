@@ -4,7 +4,7 @@
 #   --check  exit non-zero when a pinned ref can no longer be fetched
 set -eu
 
-REPO_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+REPO_DIR=$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$REPO_DIR"
 # shellcheck disable=SC1091
 . ./versions.env
@@ -39,7 +39,7 @@ lookup() {
 printf '%-16s %s\n' "source" "state"
 lookup core "$CORE_REPO" "$CORE_REF"
 
-while IFS='|' read -r name repo ref dir wrapper; do
+while IFS='|' read -r name repo ref _dir _wrapper; do
     [ -n "${name:-}" ] || continue
     case "$name" in \#*) continue ;; esac
     lookup "$name" "$repo" "$ref"
