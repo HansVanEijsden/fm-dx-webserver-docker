@@ -26,6 +26,7 @@ tuner is not connected yet.
 | Disk filling up | Scanner logs: `make prune-logs` (90 days) or `DAYS=30 make prune-logs`. |
 | Admin Audio page empty / `Error reading file: /proc/asound/cards` | Missing `systempaths=unconfined` security option (compose default). |
 | Admin login crashes with `spawn udevadm ENOENT` | Runtime image missing `eudev`; use the current image. |
+| Logs show `127.0.0.1` or the proxy/Tailscale IP | Proxy must set `X-Real-IP` to the real client and overwrite `X-Forwarded-For` (see `docs/REVERSE-PROXY.md`); never trust client-supplied XFF. |
 | `exec format error` for MPXCapture | Image built for another architecture (the build keeps the target-arch binary). |
 | Healthcheck shows unhealthy but the UI works | Check `/ping` inside the container: `docker compose exec fm-dx-webserver wget -qO- http://127.0.0.1:8080/ping`. |
 

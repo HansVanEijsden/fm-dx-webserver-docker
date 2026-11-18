@@ -35,7 +35,8 @@ server {
 
         proxy_set_header Host              $host;
         proxy_set_header X-Real-IP         $remote_addr;
-        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        # Overwrite client-supplied X-Forwarded-For: appending it lets clients spoof IPs.
+        proxy_set_header X-Forwarded-For   $remote_addr;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header Upgrade           $http_upgrade;
         proxy_set_header Connection        $connection_upgrade;
@@ -49,8 +50,12 @@ server {
 }
 ```
 
-`X-Forwarded-For` is used for client location, connection logs and bans; make
-sure the proxy sets it (and that only trusted proxies can reach the port).
+`X-Real-IP` is authoritative for client location, connection logs and bans.
+Overwrite any client-supplied `X-Forwarded-For` with `$remote_addr`; do not use
+`$proxy_add_x_forwarded_for`, because a client can prepend a forged value. Only
+trusted proxies may reach port 8080. If another proxy (e.g. Cloudflare) is in
+front, configure `ngx_http_realip_module` so `$remote_addr` is the real client
+before setting these headers.
 
 ## Caddy
 

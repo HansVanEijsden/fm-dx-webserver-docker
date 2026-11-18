@@ -20,6 +20,8 @@ grep -q MM_TOOLTIP_ORDER web/js/webserver.js
 grep -q MM_ECC_STABLE_BADGE plugins/MetricsMonitor/js/metricsmonitor-header.js
 grep -q MM_ORT_QUIET plugins/AI-Denoise/ai-denoise.js
 grep -q MM_SYSTEM_FFMPEG server/stream/parser.js
+grep -q MM_CLIENT_IP_TRUST server/helpers.js
+grep -q MM_CLIENT_IP_TRUST server/endpoints.js
 grep -q setAiOverride server/tx_search.js
 echo "all patch markers present"
 '

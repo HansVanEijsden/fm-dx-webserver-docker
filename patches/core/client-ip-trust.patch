@@ -1,0 +1,24 @@
+--- a/server/helpers.js
++++ b/server/helpers.js
+@@ -61,7 +61,8 @@
+ 
+ // All IPs from x-forwarded-for (or the socket), normalized
+ function getClientIps(req) {
+-  const raw = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '';
++  // MM_CLIENT_IP_TRUST: prefer the proxy-set X-Real-IP; X-Forwarded-For is client-spoofable when proxies append.
++  const raw = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '';
+   return raw.split(',').map(cleanIp).filter(Boolean);
+ }
+ 
+--- a/server/endpoints.js
++++ b/server/endpoints.js
+@@ -193,7 +193,8 @@
+ const WINDOW_MS = 15 * 60 * 1000; 
+ 
+ const authenticate = (req, res, next) => {
+-    const ip = req.ip || req.connection.remoteAddress;
++    // MM_CLIENT_IP_TRUST: use the proxy-aware client IP, not the socket (Tailscale) address.
++    const ip = helpers.getClientIp(req) || req.ip || req.connection.remoteAddress;
+     const now = Date.now();
+ 
+     if (!loginAttempts[ip]) {

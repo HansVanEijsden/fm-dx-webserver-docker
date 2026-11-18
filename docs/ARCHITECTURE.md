@@ -46,6 +46,7 @@ versions.env (pinned SHAs)
 | `plugins/metricsmonitor-header-ecc.patch` | rebuild the ECC badge only when its content changes |
 | `plugins/ai-denoise-ort-quiet.patch` | filter harmless ONNX runtime warnings from the console |
 | `core/stream-parser-ffmpeg.patch` | use the system ffmpeg instead of the pruned `ffmpeg-static` package |
+| `core/client-ip-trust.patch` | prefer the proxy-set `X-Real-IP` and use it for admin login logs |
 
 `scripts/patch-rds-txsearch.js` pre-applies the RDS AI Decoder's AI-override
 patch to `server/tx_search.js`, so the first boot does not need a restart. If a
