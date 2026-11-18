@@ -20,6 +20,8 @@ for f in blacklist.txt whitelist.txt blacklist_fmlist.txt blacklist_log.txt scan
     if [ ! -e "$DATA/scanner/$f" ]; then
         if [ -f "/opt/fm-dx-webserver/defaults/scanner/$f" ]; then
             cp "/opt/fm-dx-webserver/defaults/scanner/$f" "$DATA/scanner/$f"
+        elif [ "$f" = "scanner_state.json" ]; then
+            echo '{}' > "$DATA/scanner/$f"
         else
             : > "$DATA/scanner/$f"
         fi

@@ -44,6 +44,13 @@ done
 # as well so the reported version matches.
 copy_file "$LEGACY_PLUGINS/ButtonPresets.js" "$OVERLAY/plugins/ButtonPresets.js"
 
+# Site web assets: station logos, custom sounds, overlays.
+if [ -d "$LEGACY_DIR/fm-dx-addons/web" ]; then
+    mkdir -p "$OVERLAY/web"
+    cp -a "$LEGACY_DIR/fm-dx-addons/web/." "$OVERLAY/web/"
+    echo "copied site web assets (logo/sound)"
+fi
+
 # Site configuration (secrets) and plugin configuration.
 copy_file "$LEGACY_DIR/config/config.json" "config/config.json"
 chmod 600 config/config.json 2>/dev/null || true

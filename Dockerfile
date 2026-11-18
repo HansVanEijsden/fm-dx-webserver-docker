@@ -54,13 +54,18 @@ RUN set -e; \
     fi; \
     rm -rf /opt/fm-dx-webserver/node_modules/ffmpeg-static
 
+# ES Alert plays /sound/alert.mp3 from the web root; ship the plugin's sound file.
+RUN base=/opt/fm-dx-webserver; \
+    mkdir -p "$base/web/sound"; \
+    if [ -f "$base/plugins/ES-Alert/alert.mp3" ]; then cp "$base/plugins/ES-Alert/alert.mp3" "$base/web/sound/alert.mp3"; fi
+
 # Seed data + redirect mutable runtime state to /data (persistent volume).
 RUN set -e; \
     base=/opt/fm-dx-webserver; \
     mkdir -p "$base/defaults/scanner" "$base/defaults/rds"; \
     for f in blacklist.txt whitelist.txt blacklist_fmlist.txt blacklist_log.txt scanner_state.json; do \
         src="$base/plugins/Scanner/$f"; \
-        if [ -f "$src" ] && [ ! -L "$src" ]; then cp "$src" "$base/defaults/scanner/$f"; else : > "$base/defaults/scanner/$f"; fi; \
+        if [ -f "$src" ] && [ ! -L "$src" ]; then cp "$src" "$base/defaults/scanner/$f"; elif [ "$f" = "scanner_state.json" ]; then echo '{}' > "$base/defaults/scanner/$f"; else : > "$base/defaults/scanner/$f"; fi; \
         ln -sf "/data/scanner/$f" "$base/plugins/Scanner/$f"; \
     done; \
     for f in rdsm_config.json rdsm_fmdx_cache.json rdsm_memory.json; do \
