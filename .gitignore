@@ -10,3 +10,5 @@ node_modules/
 *.log
 serverlog*.txt
 .DS_Store
+compose.override.yaml
+compose.override.yml
