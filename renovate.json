@@ -1,0 +1,6 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "pinDigests": true,
+  "description": "Base image and GitHub Actions are updated automatically; plugin/core commit pins in versions.env are reviewed via the weekly upstream-check workflow and `make update`."
+}
