@@ -79,7 +79,7 @@ RUN set -e; \
 # runtime
 # ---------------------------------------------------------------------------
 FROM ${NODE_IMAGE}
-RUN apk add --no-cache alsa-utils ffmpeg ca-certificates
+RUN apk add --no-cache bash alsa-utils ffmpeg ca-certificates
 
 WORKDIR /opt/fm-dx-webserver
 COPY --from=build --chown=1000:1000 /opt/fm-dx-webserver /opt/fm-dx-webserver
