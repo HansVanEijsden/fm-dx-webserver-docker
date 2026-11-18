@@ -24,6 +24,8 @@ tuner is not connected yet.
 | `Waiting for Scope..` / empty MPX | MPX input card not configured or busy; check `data/plugins_configs/metricsmonitor.json` and the `MPXCapture` logs. |
 | Scanner logs not written | `data/logs/` permissions; check `docker compose logs` for the scanner plugin. |
 | Disk filling up | Scanner logs: `make prune-logs` (90 days) or `DAYS=30 make prune-logs`. |
+| Admin Audio page empty / `Error reading file: /proc/asound/cards` | Missing `systempaths=unconfined` security option (compose default). |
+| Admin login crashes with `spawn udevadm ENOENT` | Runtime image missing `eudev`; use the current image. |
 | `exec format error` for MPXCapture | Image built for another architecture (the build keeps the target-arch binary). |
 | Healthcheck shows unhealthy but the UI works | Check `/ping` inside the container: `docker compose exec fm-dx-webserver wget -qO- http://127.0.0.1:8080/ping`. |
 

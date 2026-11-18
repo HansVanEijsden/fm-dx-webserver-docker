@@ -117,6 +117,9 @@ belong in `site/overlay/` and are copied into the image after the patches when
 
 - Container runs as uid/gid 1000, drops all capabilities and sets
   `no-new-privileges`.
+- `systempaths=unconfined` is set so the admin Audio page can read
+  `/proc/asound` (Docker masks it by default). The container still runs without
+  root or capabilities; `eudev` provides `udevadm` for device discovery.
 - No secrets are baked into the image; `config/` and `.env` are excluded from the
   build context.
 - `8080` is published on all interfaces by default. Set `BIND_IP` to

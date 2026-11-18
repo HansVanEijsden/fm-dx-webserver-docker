@@ -64,7 +64,9 @@ customisations (visualisations, calibration, preset files) and is gitignored.
 ## Runtime
 
 - The container runs as uid/gid 1000, with `cap_drop: ALL` and
-  `no-new-privileges`.
+  `no-new-privileges`. `systempaths=unconfined` is required because the admin
+  Audio page reads `/proc/asound` (masked by Docker by default); `eudev`
+  provides `udevadm` for device discovery.
 - `/data` is a persistent volume. Mutable plugin files are symlinked to it at
   build time; `seed-data.sh` creates the files on first start.
 - `plugins_configs` and `web/logs` are mounted from `data/`.
