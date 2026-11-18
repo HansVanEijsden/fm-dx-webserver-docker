@@ -1,3 +1,4 @@
 ignored:
+  - DL3006  # base image is a build arg (pinned by digest for releases)
   - DL3018  # apk package versions are not pinned; the base image digest is
   - DL3059  # multiple RUN instructions are intentional for layer clarity
