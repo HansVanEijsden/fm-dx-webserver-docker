@@ -36,6 +36,7 @@ for rel in \
     UIAddonPack/pluginUIAddonPack.js \
     ES-Alert/es-alert.js \
     LiveMap/livemap.js \
+    Scanner/scanner.js \
     ; do
     copy_file "$LEGACY_PLUGINS/$rel" "$OVERLAY/plugins/$rel"
 done
