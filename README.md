@@ -56,6 +56,17 @@ ADMIN_PASS=secret TUNE_PASS=secret FMLIST_TOKEN=... PROXY_URL=https://tuner.exam
 make bootstrap
 ```
 
+## Prebuilt image
+
+A generic (no site overlay) `linux/amd64` image is published from release tags:
+
+```bash
+IMAGE_REPO=ghcr.io/hansvaneijsden/fm-dx-webserver-docker IMAGE_TAG=v0.1.0 docker compose pull
+IMAGE_REPO=ghcr.io/hansvaneijsden/fm-dx-webserver-docker IMAGE_TAG=v0.1.0 docker compose up -d
+```
+
+Local site customisations (`site/overlay/`) require a local `make build`.
+
 ## Hardware
 
 - **Audio:** any ALSA capture device. List them with `arecord -l` and set
